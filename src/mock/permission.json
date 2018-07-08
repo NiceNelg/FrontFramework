@@ -1,0 +1,89 @@
+{
+  "status": 1,
+  "code": 100001,
+  "msg": "操作成功",
+  "data": [{
+    "modules": "top_system",
+    "title": "系统管理",
+    "show": true,
+    "opt": [],
+    "children": [{
+      "modules": "module",
+      "title": "模块管理",
+      "show": true,
+      "opt": [{
+        "title": "列表",
+        "operate": "index"
+      }, {
+        "title": "添加/编辑",
+        "operate": "edit"
+      }, {
+        "title": "删除",
+        "operate": "del"
+      }, {
+        "title": "上移/下移",
+        "operate": "sort"
+      }],
+      "children": [{
+        "modules": "operate",
+        "title": "操作管理",
+        "show": false,
+        "opt": [{
+          "title": "列表",
+          "operate": "index"
+        }, {
+          "title": "添加/编辑",
+          "operate": "edit"
+        }, {
+          "title": "删除",
+          "operate": "del"
+        }]
+      }]
+    }, {
+      "modules": "Dictionary",
+      "title": "数据字典",
+      "show": true,
+      "opt": [{
+        "title": "列表",
+        "operate": "index"
+      }, {
+        "title": "添加/编辑",
+        "operate": "edit"
+      }, {
+        "title": "删除",
+        "operate": "del"
+      }]
+    }, {
+      "modules": "log",
+      "title": "日志管理",
+      "show": true,
+      "opt": [{
+        "title": "列表",
+        "operate": "index"
+      }]
+    }]
+  },{
+    "modules": "top_system",
+    "title": "系统管理",
+    "show": true,
+    "opt": [],
+    "children": [{
+      "modules": "module",
+      "title": "模块管理",
+      "show": true,
+      "opt": [{
+        "title": "列表",
+        "operate": "index"
+      }, {
+        "title": "添加/编辑",
+        "operate": "edit"
+      }, {
+        "title": "删除",
+        "operate": "del"
+      }, {
+        "title": "上移/下移",
+        "operate": "sort"
+      }]
+    }]
+  }]
+}

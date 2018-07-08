@@ -1,0 +1,10 @@
+{
+  "status": 1,
+  "code": 100001,
+  "msg": "操作成功",
+  "data": {
+    "token": "admin",
+    "sid": "eteesttt",
+    "userkey": "sdfdetf"
+  }
+}
