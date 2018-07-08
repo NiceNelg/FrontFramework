@@ -20,6 +20,11 @@ export const routerMap = [{
     path: '/401', 
     component: () => import('@/views/errorPage/401')
   }, {
+    path: '/charts',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'charts'
+  }, {
     path:'/admin/index',
     component: Layout,
     meta: {

@@ -10,15 +10,15 @@ NProgress.configure({ showSpinner: false })// NProgress Configuration
 // permission judge function
 function hasPermission(permissionList, to) {
   //没有设置权限的路由都无需检验权限
-  if( !('authority' in to) ) {
+  if( !to.meta || !to.meta.authority || !to.meta.authority.modules ) {
     return true;
   }
   //没有此模块权限的路由直接拒绝
-  if( !(to.authority.modules in permissionList)  ) {
+  if( !(to.meta.authority.modules in permissionList)  ) {
     return false;
   }
   let result = false;
-  permissionList[to.authority.modules].opt.forEach(pItem => {
+  permissionList[to.meta.authority.modules].opt.forEach(pItem => {
     if(pItem.operate == to.authority.opt) {
       result = true;
     }
