@@ -1,61 +1,69 @@
-import { asyncRouterMap, constantRouterMap } from '@/router'
+import { updatePermissionsOperation } from '@/api/permission';
+import { routerMap } from '@/router';
 
 /**
- * 通过meta.role判断是否与当前用户权限匹配
- * @param roles
- * @param route
+ * 递归抽离模块权限，建立当前用户适合的权限映射表
  */
-function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.indexOf(role) >= 0)
-  } else {
-    return true
-  }
-}
-
-/**
- * 递归过滤异步路由表，返回符合用户角色权限的路由表
- * @param asyncRouterMap
- * @param roles
- */
-function filterAsyncRouter(asyncRouterMap, roles) {
-  const accessedRouters = asyncRouterMap.filter(route => {
-    if (hasPermission(roles, route)) {
-      if (route.children && route.children.length) {
-        route.children = filterAsyncRouter(route.children, roles)
-      }
-      return true
+function extractionUserPermission(modulesMap, permissionList) {
+  modulesMap.forEach((value,index,modulesMap) => {
+    if( value.children && value.children.length > 0 ) {
+      extractionUserPermission(value.children, permissionList)
     }
-    return false
-  })
-  return accessedRouters
+    //当此模块拥有操作时，代表有对应路由，通过路由表获取对应路径加到操作中
+    if( value.opt && value.opt.length ) {
+      const opts = value.opt.concat();
+      routerMap.forEach((routerItem,routerIndex,routerMap) => {
+        if( routerItem.meta && routerItem.meta.authority && routerItem.meta.authority.modules == value.modules ) {
+          opts.forEach((optItem,optIndex,opts) => {
+            if( optItem.operate == routerItem.meta.authority.opt ) {
+              opts[optIndex]['path'] = routerItem.path;
+            }
+          });
+        }
+      });
+      permissionList[value.modules] = {
+        modules: value.modules,
+        title: value.title,
+        show: value.show,
+        opt:opts
+      };
+    }
+  });
 }
 
 const permission = {
   state: {
-    routers: constantRouterMap,
-    addRouters: []
+    permissionsList: {},
+    modulesList: []
   },
   mutations: {
-    SET_ROUTERS: (state, routers) => {
-      state.addRouters = routers
-      state.routers = constantRouterMap.concat(routers)
+    SET_PERMISSIONSLIST(state, permissionsList) {
+      state.permissionsList = permissionsList;
+    },
+    SET_MODULESLIST(state, modulesList) {
+      state.modulesList = modulesList;
     }
   },
   actions: {
-    GenerateRoutes({ commit }, data) {
-      return new Promise(resolve => {
-        const { roles } = data
-        let accessedRouters
-        if (roles.indexOf('admin') >= 0) {
-          accessedRouters = asyncRouterMap
-        } else {
-          accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
-        }
-        commit('SET_ROUTERS', accessedRouters)
-        resolve()
+    //更新用户权限
+    UpdatePermissionsOperation({ commit }, postData) {
+      return new Promise((resolve, reject) => {
+        updatePermissionsOperation(postData.sid, postData.userKey).then(response => {
+          if (!response.data && !response.data.state) { // 由于mockjs 不支持自定义状态码只能这样hack
+            reject('error')
+          }
+          const data = response.data.data;
+          const permissionList = {};
+          //抽离模块权限
+          extractionUserPermission(data, permissionList);
+          commit('SET_PERMISSIONSLIST', permissionList);
+          commit('SET_MODULESLIST', data);
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
       })
-    }
+    },
   }
 }
 

@@ -92,8 +92,8 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
-            return this.$store.dispatch('GetPermissionsOperation');
+          this.$store.dispatch('LoginByUsername', this.loginForm).then((postData) => {
+            return this.$store.dispatch('UpdatePermissionsOperation', postData);
           }).then(() => {
             this.loading = false
             this.$router.push({ path: '/' })

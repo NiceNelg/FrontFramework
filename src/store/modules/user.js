@@ -16,7 +16,7 @@ const user = {
       articlePlatform: []
     },
     sid: '',
-    userkey: ''
+    userKey: ''
   },
   mutations: {
     SET_CODE: (state, code) => {
@@ -43,8 +43,8 @@ const user = {
     SET_ROLES: (state, roles) => {
       state.roles = roles
     },
-    SET_USERKEY: (state, userkey) => {
-      state.userkey = userkey;
+    SET_USERKEY: (state, userKey) => {
+      state.userKey = userKey;
     },
     SET_SID: (state, sid) => {
       state.sid = sid;
@@ -67,10 +67,10 @@ const user = {
           }
           const data = res.data
           commit('SET_TOKEN', data.token);
-          commit('SET_USERKEY', data.userkey);
+          commit('SET_USERKEY', data.userKey);
           commit('SET_SID', data.sid);
-          setToken(response.data.token)
-          resolve()
+          setToken(response.data.token);
+          resolve({sid: data.sid, userKey: data.userKey});
         }).catch(error => {
           reject(error)
         })
@@ -91,29 +91,6 @@ const user = {
             reject('getInfo: roles must be a non-null array !')
           }
 
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
-          commit('SET_INTRODUCTION', data.introduction)
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    },
-    //获取用户权限表
-    GetPermissionsOperation({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        getPermissionsOperation(state.token).then(response => {
-          if (!response.data) { // 由于mockjs 不支持自定义状态码只能这样hack
-            reject('error')
-          }
-          const data = response.data
-
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.avatar)
           commit('SET_INTRODUCTION', data.introduction)

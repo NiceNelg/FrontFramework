@@ -1,4 +1,4 @@
-import store from '@/store'
+import store from '@/store';
 
 /**
  * @param {Array} value
@@ -23,4 +23,3 @@ export default function checkPermission(value) {
     return false
   }
 }
-
