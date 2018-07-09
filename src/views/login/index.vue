@@ -93,7 +93,7 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('LoginByUsername', this.loginForm).then((postData) => {
-            return this.$store.dispatch('UpdatePermissionsOperation', postData);
+            return this.$store.dispatch('UpdatePermissionsOperation')
           }).then(() => {
             this.loading = false
             this.$router.push({ path: '/' })

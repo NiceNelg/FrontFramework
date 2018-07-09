@@ -1,9 +1,10 @@
 import request from '@/utils/request'
+import { getSid, getUserKey } from '../utils/auth'
 
-export function updatePermissionsOperation(sid, userkey) {
+export function updatePermissionsOperation() {
   const data = {
-    sid,
-    userkey
+    sid: getSid(),
+    userKey: getUserKey()
   }
   return request({
     url: 'permission.json',

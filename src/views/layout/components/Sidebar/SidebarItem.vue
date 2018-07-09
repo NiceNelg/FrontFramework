@@ -2,47 +2,84 @@
   <div class="menu-wrapper">
     <template 
       v-for="item in modulesList" 
-      v-if="!item.show&&item.children"
     >
 
       <router-link 
-        v-if="hasOneShowingChildren(item.children)" 
-        :to="item.path+'/'+item.children[0].path"
-        :key="item.children[0].name"
+        v-if="getRouterByModulesKey(item.modules, permissionList)"
+        :to="getRouterByModulesKey(item.modules, permissionList)"
+        :key="item.modules"
       >
         <el-menu-item 
-          :index="item.path+'/'+item.children[0].path" 
+          :index="item.modules" 
           :class="{'submenu-title-noDropdown':!isNest}"
         >
           <svg-icon 
-            v-if="item.children[0].meta&&item.children[0].meta.icon" 
-            :icon-class="item.children[0].meta.icon"
+            v-if="item.icon" 
+            :icon-class="item.icon"
           >
           </svg-icon>
           <span 
-            v-if="item.children[0].meta&&item.children[0].meta.title" 
+            v-if="item.title" 
             slot="title"
           >
-            {{generateTitle(item.children[0].meta.title)}}
+            {{generateTitle(item.modules)}}
           </span>
         </el-menu-item>
       </router-link>
 
-      <el-submenu v-else :index="item.name||item.path" :key="item.name">
-        <template slot="title">
-          <svg-icon v-if="item.meta&&item.meta.icon" :icon-class="item.meta.icon"></svg-icon>
-          <span v-if="item.meta&&item.meta.title" slot="title">{{generateTitle(item.meta.title)}}</span>
+      <el-submenu 
+        v-else
+        :key="item.modules"
+        :index="item.modules" 
+      >
+        <template 
+          slot="title"
+        >
+          <svg-icon
+            :icon-class="item.icon"
+          >
+          </svg-icon>
+          <span 
+            v-if="item.title" 
+            slot="title"
+          >
+            {{generateTitle(item.modules)}}
+          </span>
         </template>
 
-        <template v-for="child in item.children" v-if="!child.hidden">
-          <sidebar-item :is-nest="true" class="nest-menu" v-if="child.children&&child.children.length>0" :routes="[child]" :key="child.path"></sidebar-item>
+        <template 
+          v-for="child in item.children" 
+          v-if="child.show"
+        >
 
-          <router-link v-else :to="item.path+'/'+child.path" :key="child.name">
-            <el-menu-item :index="item.path+'/'+child.path">
-              <svg-icon v-if="child.meta&&child.meta.icon" :icon-class="child.meta.icon"></svg-icon>
-              <span v-if="child.meta&&child.meta.title" slot="title">{{generateTitle(child.meta.title)}}</span>
+          <router-link 
+            :to="getRouterByModulesKey(child.modules, permissionList)" 
+            :key="child.modules"
+          >
+            <el-menu-item 
+              :index="child.modules"
+            >
+              <svg-icon 
+                v-if="child.icon" 
+                :icon-class="child.icon"
+              >
+              </svg-icon>
+              <span 
+                v-if="child.title"
+                slot="title"
+              >
+                {{generateTitle(child.modules)}}
+              </span>
             </el-menu-item>
           </router-link>
+          
+          <sidebar-item 
+            v-if="child.children && child.children.length>0" 
+            class="nest-menu" 
+            :key="child.modules + 'children'"
+          >
+          </sidebar-item>
+
         </template>
       </el-submenu>
 
@@ -52,17 +89,22 @@
 
 <script>
 import { generateTitle } from '@/utils/i18n'
+import { getRouterByModulesKey } from '@/utils/router'
 
 export default {
   name: 'SidebarItem',
   props: {
     modulesList: {
       type: Array
-    },
-    isNest: {
-      type: Boolean,
-      default: false
     }
+  },
+  data() {
+    return {
+      permissionList: this.$store.state.permission.permissionsList
+    }
+  },
+  created() {
+    console.log(this.permissionList)
   },
   methods: {
     hasOneShowingChildren(children) {
@@ -74,7 +116,8 @@ export default {
       }
       return false
     },
-    generateTitle
+    generateTitle,
+    getRouterByModulesKey
   }
 }
 </script>

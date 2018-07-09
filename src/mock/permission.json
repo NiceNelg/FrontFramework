@@ -6,6 +6,7 @@
     "modules": "top_system",
     "title": "系统管理",
     "show": true,
+    "icon": "dashboard",
     "opt": [],
     "children": [{
       "modules": "module",
@@ -63,13 +64,14 @@
       }]
     }]
   },{
-    "modules": "top_system",
-    "title": "系统管理",
+    "modules": "top_goodsmanges",
+    "title": "商品管理",
     "show": true,
+    "icon": "dashboard",
     "opt": [],
     "children": [{
-      "modules": "module",
-      "title": "模块管理",
+      "modules": "goods",
+      "title": "商品管理",
       "show": true,
       "opt": [{
         "title": "列表",

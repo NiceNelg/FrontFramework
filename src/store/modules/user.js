@@ -44,10 +44,10 @@ const user = {
       state.roles = roles
     },
     SET_USERKEY: (state, userKey) => {
-      state.userKey = userKey;
+      state.userKey = userKey
     },
     SET_SID: (state, sid) => {
-      state.sid = sid;
+      state.sid = sid
     }
   },
   actions: {
@@ -56,21 +56,23 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         loginByUsername(username, userInfo.password).then(response => {
-          const res = response.data;
-          if( !res.status ) {
+          const res = response.data
+          if (!res.status) {
             Message({
               message: res.msg,
               type: 'error',
               duration: 5 * 1000
-            });
-            reject();
+            })
+            reject()
           }
           const data = res.data
-          commit('SET_TOKEN', data.token);
-          commit('SET_USERKEY', data.userKey);
-          commit('SET_SID', data.sid);
-          setToken(response.data.token);
-          resolve({sid: data.sid, userKey: data.userKey});
+          commit('SET_TOKEN', data.token)
+          commit('SET_USERKEY', data.userKey)
+          commit('SET_SID', data.sid)
+          setToken(response.data.token)
+          setToken(response.data.sid)
+          setToken(response.data.userKey)
+          resolve({ sid: data.sid, userKey: data.userKey })
         }).catch(error => {
           reject(error)
         })

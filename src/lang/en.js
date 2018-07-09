@@ -144,5 +144,22 @@ export default {
     close: 'Close',
     closeOthers: 'Close Others',
     closeAll: 'Close All'
+  },
+  /* 曲速语言包开始 */
+  modules: {
+    top_system: 'System Management',
+    module: 'Module Management',
+    operate: 'Operation Management',
+    admin: 'Administrator Management',
+    role: 'Role Management',
+    log: 'Log Management',
+    modifyPassword: 'Modify the password',
+    dictionary: 'Data Dictionary',
+    top_goodsmanges: 'Goods Management'
+  },
+  opt: {
+    index: 'List',
+    edit: 'Edit',
+    del: 'Delete'
   }
 }
