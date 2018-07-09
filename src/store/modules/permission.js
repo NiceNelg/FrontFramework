@@ -5,14 +5,14 @@ import { routerMap } from '@/router'
  * 递归抽离模块权限，建立当前用户适合的权限映射表
  */
 function extractionUserPermission(modulesMap, permissionList) {
-  modulesMap.forEach((value, index, modulesMap) => {
+  modulesMap.forEach((value) => {
     if (value.children && value.children.length > 0) {
       extractionUserPermission(value.children, permissionList)
     }
     // 当此模块拥有操作时，代表有对应路由，通过路由表获取对应路径加到操作中
     if (value.opt && value.opt.length) {
       const opts = value.opt.concat()
-      routerMap.forEach((routerItem, routerIndex, routerMap) => {
+      routerMap.forEach((routerItem) => {
         if (routerItem.meta && routerItem.meta.authority && routerItem.meta.authority.modules == value.modules) {
           opts.forEach((optItem, optIndex, opts) => {
             if (optItem.operate == routerItem.meta.authority.opt) {

@@ -9,7 +9,11 @@
       text-color="#bfcbd9"
       active-text-color="#409EFF"
     >
-      <sidebar-item :modulesList="modulesList"></sidebar-item>
+      <sidebar-item 
+        :modulesList="modulesList"
+        :isChildren="false"
+      >
+      </sidebar-item>
     </el-menu>
   </el-scrollbar>
 </template>

@@ -12,7 +12,6 @@ const tagsView = {
       }
       //根据模块和操作返回名称组合
       const title = getViewNameByModulesAndOpt(view.meta.authority.modules, view.meta.authority.opt);
-      console.log(title);
       state.visitedViews.push(Object.assign({}, view, {
         title: title
       }))

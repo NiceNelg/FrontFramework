@@ -5,16 +5,16 @@
     >
 
       <router-link 
-        v-if="getRouterByModulesKey(item.modules, permissionList)"
+        v-if="isChildren"
         :to="getRouterByModulesKey(item.modules, permissionList)"
         :key="item.modules"
       >
-        <el-menu-item 
-          :index="item.modules" 
-          :class="{'submenu-title-noDropdown':!isNest}"
+        <el-menu-item
+          :index="item.modules"
+          class="submenu-title-noDropdown"
         >
           <svg-icon 
-            v-if="item.icon" 
+            v-if="item.icon && item.icon != ''" 
             :icon-class="item.icon"
           >
           </svg-icon>
@@ -30,12 +30,13 @@
       <el-submenu 
         v-else
         :key="item.modules"
-        :index="item.modules" 
+        :index="item.modules"
       >
         <template 
           slot="title"
         >
           <svg-icon
+            v-if="item.icon && item.icon != ''" 
             :icon-class="item.icon"
           >
           </svg-icon>
@@ -51,8 +52,18 @@
           v-for="child in item.children" 
           v-if="child.show"
         >
+        
+          <sidebar-item 
+            v-if="child.children && child.children.length>0" 
+            class="nest-menu" 
+            :key="child.modules + 'children'"
+            :modulesList="[child]"
+            :isChildren="true"
+          >
+          </sidebar-item>
 
           <router-link 
+            v-else
             :to="getRouterByModulesKey(child.modules, permissionList)" 
             :key="child.modules"
           >
@@ -60,7 +71,7 @@
               :index="child.modules"
             >
               <svg-icon 
-                v-if="child.icon" 
+                v-if="child.icon && child.icon != ''" 
                 :icon-class="child.icon"
               >
               </svg-icon>
@@ -72,13 +83,6 @@
               </span>
             </el-menu-item>
           </router-link>
-          
-          <sidebar-item 
-            v-if="child.children && child.children.length>0" 
-            class="nest-menu" 
-            :key="child.modules + 'children'"
-          >
-          </sidebar-item>
 
         </template>
       </el-submenu>
@@ -96,6 +100,9 @@ export default {
   props: {
     modulesList: {
       type: Array
+    },
+    isChildren: {
+      type:Boolean
     }
   },
   data() {
@@ -104,15 +111,6 @@ export default {
     }
   },
   methods: {
-    hasOneShowingChildren(children) {
-      const showingChildren = children.filter(item => {
-        return item.show
-      })
-      if (showingChildren.length === 1) {
-        return true
-      }
-      return false
-    },
     generateTitle,
     getRouterByModulesKey
   }
