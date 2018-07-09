@@ -103,9 +103,6 @@ export default {
       permissionList: this.$store.state.permission.permissionsList
     }
   },
-  created() {
-    console.log(this.permissionList)
-  },
   methods: {
     hasOneShowingChildren(children) {
       const showingChildren = children.filter(item => {

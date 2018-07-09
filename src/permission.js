@@ -8,22 +8,22 @@ import { getToken, getSid, getUserKey } from '@/utils/auth' // getToken from coo
 NProgress.configure({ showSpinner: false })// NProgress Configuration
 
 // permission judge function
-function hasPermission(permissionList, to) {
+function hasPermission(permissionsList, to) {
   // 没有设置权限的路由都无需检验权限
   if (!to.meta || !to.meta.authority || !to.meta.authority.modules) {
-    return true
+    return true;
   }
   // 没有此模块权限的路由直接拒绝
-  if (!(to.meta.authority.modules in permissionList)) {
-    return false
+  if (!permissionsList.hasOwnProperty(to.meta.authority.modules)) {
+    return false;
   }
-  let result = false
-  permissionList[to.meta.authority.modules].opt.forEach(pItem => {
-    if (pItem.operate == to.authority.opt) {
-      result = true
+  let result = false;
+  permissionsList[to.meta.authority.modules].opt.forEach(pItem => {
+    if (pItem.operate == to.meta.authority.opt) {
+      result = true;
     }
   })
-  return result
+  return result;
 }
 
 const whiteList = ['/']// no redirect whitelist
@@ -39,11 +39,11 @@ router.beforeEach((to, from, next) => {
     } else {
       // 页面被刷新，重新获取权限
       if (store.getters.modulesList.length <= 0) {
-        store.dispatch('UpdatePermissionsOperation', { sid: getSid(), userKey: getUserKey() }).then(() => {
+        store.dispatch('UpdatePermissionsOperation').then(() => {
           // 在免权限认证白名单，直接进入
           if (whiteList.indexOf(to.path) !== -1) {
             next()
-          } else if (hasPermission(store.getters.permissionList, to)) {
+          } else if (hasPermission(store.getters.permissionsList, to)) {
             next()
           } else {
             next({ path: '/401', replace: true, query: { noGoBack: true }})
@@ -53,7 +53,7 @@ router.beforeEach((to, from, next) => {
         // 在免权限认证白名单，直接进入
         if (whiteList.indexOf(to.path) !== -1) {
           next()
-        } else if (hasPermission(store.getters.permissionList, to)) {
+        } else if (hasPermission(store.getters.permissionsList, to)) {
           next()
         } else {
           next({ path: '/401', replace: true, query: { noGoBack: true }})

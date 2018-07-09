@@ -155,7 +155,8 @@ export default {
     log: 'Log Management',
     modifyPassword: 'Modify the password',
     dictionary: 'Data Dictionary',
-    top_goodsmanges: 'Goods Management'
+    top_goodsmanges: 'Goods Management',
+    goods: 'Goods Management'
   },
   opt: {
     index: 'List',

@@ -41,7 +41,7 @@
         }]
       }]
     }, {
-      "modules": "Dictionary",
+      "modules": "dictionary",
       "title": "数据字典",
       "show": true,
       "opt": [{

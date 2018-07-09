@@ -7,10 +7,7 @@
     >
     </hamburger>
 
-    <breadcrumb 
-      class="breadcrumb-container"
-    >
-    </breadcrumb>
+    <breadcrumb class="breadcrumb-container"></breadcrumb>
 
     <div class="right-menu">
       <error-log class="errLog-container right-menu-item"></error-log>

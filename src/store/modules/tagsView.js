@@ -1,3 +1,5 @@
+import { getViewNameByModulesAndOpt } from '@/utils/permission';
+
 const tagsView = {
   state: {
     visitedViews: [],
@@ -5,12 +7,17 @@ const tagsView = {
   },
   mutations: {
     ADD_VISITED_VIEWS: (state, view) => {
-      if (state.visitedViews.some(v => v.path === view.path)) return
+      if (state.visitedViews.some(v => v.path === view.path)) {
+        return ;
+      }
+      //根据模块和操作返回名称组合
+      const title = getViewNameByModulesAndOpt(view.meta.authority.modules, view.meta.authority.opt);
+      console.log(title);
       state.visitedViews.push(Object.assign({}, view, {
-        title: view.meta.title || 'no-name'
+        title: title
       }))
       if (!view.meta.noCache) {
-        state.cachedViews.push(view.name)
+        state.cachedViews.push(view.path)
       }
     },
     DEL_VISITED_VIEWS: (state, view) => {

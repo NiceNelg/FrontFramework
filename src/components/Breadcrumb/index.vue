@@ -3,25 +3,23 @@
     class="app-breadcrumb" 
     separator="/"
   >
-    <transition-group 
-      name="breadcrumb"
-    >
+    <transition-group name="breadcrumb">
       <el-breadcrumb-item 
-        v-for="(item,index)  in levelList" 
-        :key="item.path" 
-        v-if='item.meta.title'
+        v-for="(item)  in levelList" 
+        v-if='item.modules'
+        :key="item.modules" 
       >
         <span 
-          v-if='item.redirect==="noredirect"||index==levelList.length-1' 
+          v-if='!item.path' 
           class="no-redirect"
         >
-          {{generateTitle(item.meta.title)}}
+          {{generateTitle(item.modules)}}
         </span>
         <router-link 
           v-else 
-          :to="item.redirect||item.path"
+          :to="item.path"
         >
-          {{generateTitle(item.meta.title)}}
+          {{generateTitle(item.title)}}
         </router-link>
       </el-breadcrumb-item>
     </transition-group>
@@ -30,6 +28,7 @@
 
 <script>
 import { generateTitle } from '@/utils/i18n'
+import { getRouterByModulesAndOpt,getRouterByModulesKey } from '@/utils/router'
 
 export default {
   created() {
@@ -37,7 +36,8 @@ export default {
   },
   data() {
     return {
-      levelList: null
+      levelList: null,
+      permissionsList: this.$store.state.permission.permissionsList
     }
   },
   watch: {
@@ -48,12 +48,15 @@ export default {
   methods: {
     generateTitle,
     getBreadcrumb() {
-      let matched = this.$route.matched.filter(item => item.name)
-      const first = matched[0]
-      if (first && first.name !== 'dashboard') {
-        matched = [{ path: '/dashboard', meta: { title: 'dashboard' }}].concat(matched)
-      }
-      this.levelList = matched
+      const router = this.$route.path.split('/');
+      const path = getRouterByModulesKey(router[0], this.permissionsList);
+      const levelList = [];
+      levelList.push({
+        modules: 'log',
+        path: '/log/index',
+        title: '日志'
+      });
+      this.levelList = levelList;
     }
   }
 }

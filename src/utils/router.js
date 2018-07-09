@@ -1,10 +1,17 @@
 export function getRouterByModulesKey(modulesKey, permissionsList) {
-  console.log(modulesKey)
-  for (const key in permissionsList) {
-    if (permissionsList.hasOwnProperty(key) && key == modulesKey && permissionsList[key].opt && permissionsList[key].opt.length > 0 && permissionsList[key].opt[0].operate == 'index') {
-      console.log(permissionsList[key].opt[0].path)
-      return permissionsList[key].opt[0].path ? permissionsList[key].opt[0].path : ''
-    }
+  if (permissionsList.hasOwnProperty(modulesKey) && permissionsList[modulesKey].opt && permissionsList[modulesKey].opt.length > 0 && permissionsList[modulesKey].opt[0].operate == 'index') {
+    return permissionsList[modulesKey].opt[0].path ? permissionsList[modulesKey].opt[0].path : '';
   }
-  return ''
+  return '';
+}
+
+export function getRouterByModulesAndOpt(modulesKey, optKey, permissionsList) {
+  if (permissionsList.hasOwnProperty(modulesKey) && permissionsList[modulesKey].opt ) {
+    permissionsList[modulesKey].opt.forEach((optItem) => {
+      if( optItem.operate == optKey ) {
+        return optItem.path ? optItem.path : '';
+      }
+    });
+  }
+  return '';
 }

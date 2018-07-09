@@ -155,7 +155,8 @@ export default {
     log: '日志管理',
     modifyPassword: '修改密码',
     dictionary: '数据字典',
-    top_goodsmanges: '商品管理'
+    top_goodsmanges: '商品管理',
+    goods: '商品管理'
   },
   opt: {
     index: '列表',

@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 const TokenKey = 'Admin-Token'
 const SidKey = 'Admin-Sid'
 const UserKey = 'Admin-UserKey'
-const LangKey = 'Admin-LangKey'
+const LangKey = 'language'
 
 // token
 export function getToken() {

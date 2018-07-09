@@ -44,12 +44,21 @@ export const routerMap = [{
     }
   }
 }, {
-  path: '/log/index',
+  path: '/log/index/:id',
   component: Layout,
   meta: {
     authority: {
       modules: 'log',
       opt: 'index'
+    }
+  }
+}, {
+  path: '/log/edit',
+  component: Layout,
+  meta: {
+    authority: {
+      modules: 'log',
+      opt: 'edit'
     }
   }
 }, {

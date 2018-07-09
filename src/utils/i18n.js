@@ -8,3 +8,13 @@ export function generateTitle(title) {
   }
   return title
 }
+
+export function optTitle(optKey) {
+  const hasKey = this.$te('modules.' + optKey)
+  const translatedTitle = this.$t('modules.' + optKey) // $t :this method from vue-i18n, inject in @/lang/index.js
+
+  if (hasKey) {
+    return translatedTitle
+  }
+  return title
+}
