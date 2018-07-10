@@ -53,27 +53,27 @@
       </el-table-column>
       <el-table-column width="110px" align="center" :label="$t('log_table.truename')">
         <template slot-scope="scope">
-          <span style='color:red;'>{{scope.row.truename}}</span>
+          <span>{{scope.row.truename}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" :label="$t('log_table.type')" width="95">
         <template slot-scope="scope">
-          <span style='color:red;'>{{scope.row.type}}</span>
+          <span>{{scope.row.type}}</span>
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" :label="$t('log_table.result')" width="100">
         <template slot-scope="scope">
-          <span style='color:red;'>{{scope.row.result}}</span>
+          <span>{{scope.row.result}}</span>
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" :label="$t('log_table.ip')" width="100">
         <template slot-scope="scope">
-          <span style='color:red;'>{{scope.row.ip}}</span>
+          <span>{{scope.row.ip}}</span>
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" :label="$t('log_table.createtime')" width="100">
         <template slot-scope="scope">
-          <span style='color:red;'>{{scope.row.createtime}}</span>
+          <span>{{scope.row.createtime}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" :label="$t('table.actions')" min-width="150" class-name="small-padding fixed-width">
