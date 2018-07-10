@@ -162,5 +162,17 @@ export default {
     index: '列表',
     edit: '编辑',
     del: '删除'
+  },
+  log_table: {
+    id: '序号',
+    module: '模块',
+    operate: '操作',
+    content: '内容',
+    author_name: '账号',
+    truename: '姓名',
+    type: '类型',
+    result: '结果',
+    createtime: '操作时间',
+    ip: 'IP'
   }
 }

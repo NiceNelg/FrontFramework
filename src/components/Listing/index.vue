@@ -1,24 +1,63 @@
 <template>
   <div>
-    <el-table :key='tableKey' :data="list" v-loading="listLoading" border fit highlight-current-row
-      style="width: 100%;min-height:1000px;">
-      <el-table-column align="center" :label="$t('table.id')" width="65">
-        <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
+    <el-table 
+      :key="tableKey" 
+      :data="list" 
+      v-loading="listLoading" 
+      border 
+      fit 
+      highlight-current-row
+      style="width: 100%;min-height:1000px;"
+    >
+      <el-table-column 
+        align="center" 
+        :label="$t('table.id')" 
+        width="65"
+      >
+        <template 
+          slot-scope="scope"
+        >
+          <span>
+            {{scope.row.id}}
+          </span>
         </template>
       </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('table.date')">
-        <template slot-scope="scope">
-          <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
+      <el-table-column 
+        width="150px" 
+        align="center" 
+        :label="$t('table.date')"
+      >
+        <template 
+          slot-scope="scope"
+        >
+          <span>
+            {{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}
+          </span>
         </template>
       </el-table-column>
-      <el-table-column min-width="150px" :label="$t('table.title')">
-        <template slot-scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
-          <el-tag>{{scope.row.type | typeFilter}}</el-tag>
+      <el-table-column 
+        min-width="150px" 
+        :label="$t('table.title')"
+      >
+        <template 
+          slot-scope="scope"
+        >
+          <span 
+            class="link-type" 
+            @click="handleUpdate(scope.row)"
+          >
+            {{scope.row.title}}
+          </span>
+          <el-tag>
+            {{scope.row.type | typeFilter}}
+          </el-tag>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('table.author')">
+      <el-table-column 
+        width="110px" 
+        align="center" 
+        :label="$t('table.author')"
+      >
         <template slot-scope="scope">
           <span>{{scope.row.author}}</span>
         </template>
@@ -58,11 +97,20 @@
     </el-table>
 
     <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      <el-pagination 
+        background 
+        @size-change="handleSizeChange" 
+        @current-change="handleCurrentChange" 
+        :current-page="listQuery.page" 
+        :page-sizes="[10,20,30, 50]" 
+        :page-size="listQuery.limit" 
+        layout="total, sizes, prev, pager, next, jumper" 
+        :total="total"
+      >
       </el-pagination>
     </div>
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <!-- <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
         <el-form-item :label="$t('table.type')" prop="type">
           <el-select class="filter-item" v-model="temp.type" placeholder="Please select">
@@ -97,7 +145,7 @@
         <el-button v-else type="primary" @click="updateData">{{$t('table.confirm')}}</el-button>
       </div>
     </el-dialog>
-
+      
     <el-dialog title="Reading statistics" :visible.sync="dialogPvVisible">
       <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
         <el-table-column prop="key" label="Channel"> </el-table-column>
@@ -106,7 +154,8 @@
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogPvVisible = false">{{$t('table.confirm')}}</el-button>
       </span>
-    </el-dialog>
+    </el-dialog> -->
+    
   </div>  
 </template>
 
@@ -126,12 +175,24 @@ const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
 
 export default {
   name: "Listing",
+  props: {
+    tableKey: 0,
+    listData: Object,
+    listLoading: Boolean,
+    listQuery: Object
+  },
+  watch: {
+    total() {
+      this.total = this.listData.total;
+    },
+    list() {
+      this.list = this.listData.row;
+    }
+  },
   data() {
     return {
-      tableKey: 0,
       list: null,
       total: null,
-      listLoading: true,
       importanceOptions: [1, 2, 3],
       calendarTypeOptions,
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
@@ -158,8 +219,7 @@ export default {
         type: [{ required: true, message: 'type is required', trigger: 'change' }],
         timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
         title: [{ required: true, message: 'title is required', trigger: 'blur' }]
-      },
-      downloadLoading: false
+      }
     }
   },
   filters: {
@@ -175,22 +235,7 @@ export default {
       return calendarTypeKeyValue[type]
     }
   },
-  created() {
-    this.getList()
-  },
   methods: {
-    getList() {
-      this.listLoading = true
-      fetchList(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
-
-        // Just to simulate the time of the request
-        setTimeout(() => {
-          this.listLoading = false
-        }, 1.5 * 1000)
-      })
-    },
     handleFilter() {
       this.listQuery.page = 1
       this.getList()
@@ -322,7 +367,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass" scoped>
-
-</style>

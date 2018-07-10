@@ -162,5 +162,17 @@ export default {
     index: 'List',
     edit: 'Edit',
     del: 'Delete'
+  },
+  log_table: {
+    id: 'Number',
+    module: 'Module',
+    operate: 'Operate',
+    content: 'Content',
+    author_name: 'Author Name',
+    truename: 'Name',
+    type: 'Type',
+    result: 'Result',
+    createtime: 'CreateTime',
+    ip: 'IP'
   }
 }
