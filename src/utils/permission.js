@@ -6,23 +6,22 @@ import i18n from '@/lang';
  * @returns {Boolean}
  * @example see @/views/permission/directive.vue
  */
-export default function checkPermission(value) {
-  if (value && value instanceof Array && value.length > 0) {
-    const roles = store.getters && store.getters.roles
-    const permissionRoles = value
+export default function checkPermission(modules, opt) {
+  const permissionsList = store.getters && store.getters.permissionsList
 
-    const hasPermission = roles.some(role => {
-      return permissionRoles.includes(role)
-    })
-
-    if (!hasPermission) {
-      return false
-    }
-    return true
-  } else {
-    console.error(`need roles! Like v-permission="['admin','editor']"`)
-    return false
+  if( !permissionsList[modules] || !permissionsList[modules].opt || permissionsList[modules].opt.length <= 0 ) {
+    return false;
   }
+  const hasPermission = permissionsList[modules].opt.filter(optItem => {
+    if( optItem.operate == opt ) {
+      return optItem;
+    }
+  });
+
+  if (hasPermission.length <= 0) {
+    return false;
+  }
+  return true;
 }
 
 /**

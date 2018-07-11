@@ -1,0 +1,59 @@
+{
+  "status": 1,
+  "code": 100001,
+  "msg": "操作成功",
+  "data": [{
+    "id": "2",
+    "pid": "1",
+    "title": "系统管理",
+    "module": "top_system",
+    "children": [{
+      "id": "3",
+      "pid": "2",
+      "title": "模块管理",
+      "module": "module",
+      "children": [{
+        "id": "4",
+        "pid": "3",
+        "title": "操作管理",
+        "module": "operate"
+      }]
+    }, {
+      "id": "5",
+      "pid": "2",
+      "title": "管理员管理",
+      "module": "operate"
+    }, {
+      "id": "6",
+      "pid": "2",
+      "title": "角色管理",
+      "module": "role"
+    }, {
+      "id": "7",
+      "pid": "2",
+      "title": "日志管理",
+      "module": "log"
+    }, {
+      "id": "8",
+      "pid": "2",
+      "title": "修改密码",
+      "module": "modifyPassword"
+    }, {
+      "id": "9",
+      "pid": "2",
+      "title": "数据字典",
+      "module": "modifyPassword"
+    }]
+  }, {
+    "id": "10",
+    "pid": "1",
+    "title": "商品管理",
+    "module": "top_goodsmanges",
+    "children": [{
+      "id": "11",
+      "pid": "10",
+      "title": "商品管理",
+      "module": "goods"
+    }]
+  }]
+}

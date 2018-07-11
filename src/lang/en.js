@@ -146,6 +146,17 @@ export default {
     closeAll: 'Close All'
   },
   /* 曲速语言包开始 */
+  public: {
+    module: 'Module',
+    operate: 'Operate',
+    content: 'Content',
+    result: 'Result',
+    username: 'UserName',
+    startTime: 'StartTime',
+    endTime: 'EndTime',
+    title: 'Title',
+    key: 'Key'
+  },
   modules: {
     top_system: 'System Management',
     module: 'Module Management',
@@ -165,14 +176,14 @@ export default {
   },
   log_table: {
     id: 'Number',
-    module: 'Module',
-    operate: 'Operate',
-    content: 'Content',
     author_name: 'Author Name',
     truename: 'Name',
     type: 'Type',
-    result: 'Result',
     createtime: 'CreateTime',
     ip: 'IP'
+  },
+  module_table: {
+    move_up: 'Move up',
+    move_down: 'Move down'
   }
 }

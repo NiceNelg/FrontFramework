@@ -3,24 +3,17 @@
     
     <!-- 搜索框 start -->
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.title')" v-model="listQuery.title">
-      </el-input>
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.importance" :placeholder="$t('table.importance')">
-        <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item">
-        </el-option>
+      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('public.module')" v-model="listQuery.module"></el-input>
+      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('public.username')" v-model="listQuery.username"></el-input>
+      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('log_table.ip')" v-model="listQuery.ip"></el-input>
+      <el-date-picker class="filter-item" style="display: inline-flex;" v-model="timeArray" type="datetimerange" range-separator="~" :start-placeholder="$t('public.startTime')" :end-placeholder="$t('public.endTime')" align="left"></el-date-picker>
+      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.type" :placeholder="$t('log_table.type')">
+        <el-option v-for="typeItem in type" :key="typeItem.value" :label="typeItem.title" :value="typeItem.value"></el-option>
       </el-select>
-      <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" :placeholder="$t('table.type')">
-        <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key">
-        </el-option>
-      </el-select>
-      <el-select @change='handleFilter' style="width: 140px" class="filter-item" v-model="listQuery.sort">
-        <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key">
-        </el-option>
+      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.result" :placeholder="$t('public.result')">
+        <el-option v-for="resultItem in result" :key="resultItem.value" :label="resultItem.title" :value="resultItem.value"></el-option>
       </el-select>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">{{$t('table.add')}}</el-button>
-      <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">{{$t('table.export')}}</el-button>
-      <el-checkbox class="filter-item" style='margin-left:15px;' @change='tableKey=tableKey+1' v-model="showReviewer">{{$t('table.reviewer')}}</el-checkbox>
     </div>
     <!-- 搜索框 end -->
 
@@ -31,17 +24,17 @@
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('log_table.module')">
+      <el-table-column width="150px" align="center" :label="$t('public.module')">
         <template slot-scope="scope">
           <span>{{scope.row.module_title}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('log_table.operate')">
+      <el-table-column width="150px" align="center" :label="$t('public.operate')">
         <template slot-scope="scope">
           <span>{{scope.row.operate_title}}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="150px" :label="$t('log_table.content')">
+      <el-table-column min-width="150px" :label="$t('public.content')">
         <template slot-scope="scope">
           <span>{{scope.row.content}}</span>
         </template>
@@ -61,7 +54,7 @@
           <span>{{scope.row.type}}</span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" :label="$t('log_table.result')" width="100">
+      <el-table-column class-name="status-col" :label="$t('public.result')" width="100">
         <template slot-scope="scope">
           <span>{{scope.row.result}}</span>
         </template>
@@ -76,22 +69,10 @@
           <span>{{scope.row.createtime}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.actions')" min-width="150" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">{{$t('table.edit')}}</el-button>
-          <el-button v-if="scope.row.status!='published'" size="mini" type="success" @click="handleModifyStatus(scope.row,'published')">{{$t('table.publish')}}
-          </el-button>
-          <el-button v-if="scope.row.status!='draft'" size="mini" @click="handleModifyStatus(scope.row,'draft')">{{$t('table.draft')}}
-          </el-button>
-          <el-button v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(scope.row,'deleted')">{{$t('table.delete')}}
-          </el-button>
-        </template>
-      </el-table-column>
     </el-table>
 
     <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
-      </el-pagination>
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
     </div>
     <!-- 列表页 end -->
 
@@ -102,22 +83,10 @@
 import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/log'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
-
-const calendarTypeOptions = [
-  { key: 'CN', display_name: 'China' },
-  { key: 'US', display_name: 'USA' },
-  { key: 'JP', display_name: 'Japan' },
-  { key: 'EU', display_name: 'Eurozone' }
-]
-
-// arr to obj ,such as { CN : "China", US : "USA" }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
+import checkPermission from '@/utils/permission'
 
 export default {
-  name: 'complexTable',
+  name: 'List',
   directives: {
     waves
   },
@@ -130,31 +99,40 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
-        importance: undefined,
-        title: undefined,
+        module: undefined,
+        username: undefined,
+        ip: undefined,
+        startTime: undefined,
+        endTime: undefined,
         type: undefined,
-        sort: '+id'
+        result: undefined
       },
-      importanceOptions: [1, 2, 3],
-      calendarTypeOptions,
-      sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
-      statusOptions: ['published', 'draft', 'deleted'],
-      showReviewer: false,
-      temp: {
-        id: undefined,
-        importance: 1,
-        remark: '',
-        timestamp: new Date(),
-        title: '',
-        type: '',
-        status: 'published'
-      },
+      timeArray: [],
+      type: [{
+        value: 0,
+        title: '不限'
+      }, {
+        value: 1,
+        title: '登录'
+      }, {
+        value: 2,
+        title: '登出'
+      }, {
+        value: 3,
+        title: '操作'
+      }],
+      result: [{
+        value: 0,
+        title: '不限'
+      }, {
+        value: 1,
+        title: '成功'
+      }, {
+        value: 2,
+        title: '失败'
+      }],
       dialogFormVisible: false,
       dialogStatus: '',
-      textMap: {
-        update: 'Edit',
-        create: 'Create'
-      },
       dialogPvVisible: false,
       pvData: [],
       rules: {
@@ -169,6 +147,7 @@ export default {
     this.getList()
   },
   methods: {
+    checkPermission,
     getList() {
       this.listLoading = true
       fetchList(this.listQuery).then(response => {
@@ -183,6 +162,16 @@ export default {
     },
     handleFilter() {
       this.listQuery.page = 1
+      //时间控件转换时间戳
+      if( this.timeArray.length > 0 ) {
+        this.timeArray.forEach((timeItem,index) => {
+          if( timeItem && index == 0 ) {
+            this.listQuery.startTime = timeItem.getTime() / 1000;
+          } else {
+            this.listQuery.endTime = timeItem.getTime() / 1000;
+          }
+        });
+      }
       this.getList()
     },
     handleSizeChange(val) {
@@ -219,24 +208,6 @@ export default {
         this.$refs['dataForm'].clearValidate()
       })
     },
-    createData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-          this.temp.author = 'vue-element-admin'
-          createArticle(this.temp).then(() => {
-            this.list.unshift(this.temp)
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '创建成功',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        }
-      })
-    },
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj
       this.temp.timestamp = new Date(this.temp.timestamp)
@@ -244,30 +215,6 @@ export default {
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
-      })
-    },
-    updateData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          const tempData = Object.assign({}, this.temp)
-          tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-          updateArticle(tempData).then(() => {
-            for (const v of this.list) {
-              if (v.id === this.temp.id) {
-                const index = this.list.indexOf(v)
-                this.list.splice(index, 1, this.temp)
-                break
-              }
-            }
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '更新成功',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        }
       })
     },
     handleDelete(row) {
@@ -279,12 +226,6 @@ export default {
       })
       const index = this.list.indexOf(row)
       this.list.splice(index, 1)
-    },
-    handleFetchPv(pv) {
-      fetchPv(pv).then(response => {
-        this.pvData = response.data.pvData
-        this.dialogPvVisible = true
-      })
     },
     handleDownload() {
       this.downloadLoading = true

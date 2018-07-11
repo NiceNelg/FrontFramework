@@ -146,6 +146,17 @@ export default {
     closeAll: '关闭所有'
   },
   /* 曲速语言包开始 */
+  public: {
+    module: '模块',
+    operate: '操作',
+    content: '内容',
+    result: '结果',
+    username: '账号',
+    startTime: '开始时间',
+    endTime: '结束时间',
+    title: '标题',
+    key: '标识'
+  },
   modules: {
     top_system: '系统管理',
     module: '模块管理',
@@ -165,14 +176,14 @@ export default {
   },
   log_table: {
     id: '序号',
-    module: '模块',
-    operate: '操作',
-    content: '内容',
     author_name: '账号',
     truename: '姓名',
     type: '类型',
-    result: '结果',
     createtime: '操作时间',
     ip: 'IP'
+  },
+  module_table: {
+    move_up: '上移',
+    move_down: '下移'
   }
 }

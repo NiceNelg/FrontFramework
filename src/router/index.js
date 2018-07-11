@@ -71,7 +71,7 @@ export const routerMap = [{
   },
   children: [{ 
     path: 'index', 
-    component: () => import('@/views/log/list'),
+    component: () => import('@/views/log/index'),
     meta: {
       authority: {
         modules: 'log',
@@ -101,17 +101,16 @@ export const routerMap = [{
   },
   children: [{ 
     path: 'index', 
-    component: () => import('@/views/log/list'),
+    component: () => import('@/views/module/index'),
     meta: {
       authority: {
         modules: 'module',
         opt: 'index'
       }
     }
-  },
-  { 
+  }, { 
     path: 'edit/:id(\\d+)', 
-    component: () => import('@/views/example/edit'),
+    component: () => import('@/views/module/edit'),
     meta: {
       authority: {
         modules: 'module',
@@ -131,7 +130,7 @@ export const routerMap = [{
   },
   children: [{ 
     path: 'index', 
-    component: () => import('@/views/log/list'),
+    component: () => import('@/views/log/index'),
     meta: {
       authority: {
         modules: 'operate',
@@ -161,7 +160,7 @@ export const routerMap = [{
   },
   children: [{ 
     path: 'index', 
-    component: () => import('@/views/log/list'),
+    component: () => import('@/views/log/index'),
     meta: {
       authority: {
         modules: 'dictionary',

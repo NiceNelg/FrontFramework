@@ -1,21 +1,8 @@
 <template>
   <div class="createPost-container">
     <el-form class="form-container" :model="postForm" :rules="rules" ref="postForm">
-
-      <sticky :className="'sub-navbar '+postForm.status">
-        <CommentDropdown v-model="postForm.comment_disabled" />
-        <PlatformDropdown v-model="postForm.platforms" />
-        <SourceUrlDropdown v-model="postForm.source_uri" />
-        <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">发布
-        </el-button>
-        <el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>
-      </sticky>
-
       <div class="createPost-main-container">
         <el-row>
-
-          <Warning />
-
           <el-col :span="24">
             <el-form-item style="margin-bottom: 40px;" prop="title">
               <MDinput name="name" v-model="postForm.title" required :maxlength="100">
@@ -73,17 +60,11 @@
 </template>
 
 <script>
-import Tinymce from '@/components/Tinymce'
-import Upload from '@/components/Upload/singleImage3'
 import MDinput from '@/components/MDinput'
 import Multiselect from 'vue-multiselect'// 使用的一个多选框组件，element-ui的select不能满足所有需求
 import 'vue-multiselect/dist/vue-multiselect.min.css'// 多选框组件css
-import Sticky from '@/components/Sticky' // 粘性header组件
 import { validateURL } from '@/utils/validate'
 import { fetchArticle } from '@/api/article'
-import { userSearch } from '@/api/remoteSearch'
-import Warning from './Warning'
-import { CommentDropdown, PlatformDropdown, SourceUrlDropdown } from './Dropdown'
 
 const defaultForm = {
   status: 'draft',
@@ -100,8 +81,10 @@ const defaultForm = {
 }
 
 export default {
-  name: 'articleDetail',
-  components: { Tinymce, MDinput, Upload, Multiselect, Sticky, Warning, CommentDropdown, PlatformDropdown, SourceUrlDropdown },
+  name: 'edit',
+  components: {
+    MDinput
+  },
   props: {
     isEdit: {
       type: Boolean,
