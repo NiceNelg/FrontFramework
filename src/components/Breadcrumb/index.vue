@@ -1,25 +1,25 @@
 <template>
   <el-breadcrumb 
     class="app-breadcrumb" 
-    separator="/"
+    separator=">"
   >
     <transition-group name="breadcrumb">
       <el-breadcrumb-item 
         v-for="(item)  in levelList" 
-        v-if='item.modules'
-        :key="item.modules" 
+        v-if='item.title'
+        :key="item.title" 
       >
         <span 
           v-if='!item.path' 
           class="no-redirect"
         >
-          {{generateTitle(item.modules)}}
+          {{item.title}}
         </span>
         <router-link 
           v-else 
           :to="item.path"
         >
-          {{generateTitle(item.title)}}
+          {{item.title}}
         </router-link>
       </el-breadcrumb-item>
     </transition-group>
@@ -28,7 +28,6 @@
 
 <script>
 import { generateTitle } from '@/utils/i18n'
-import { getRouterByModulesAndOpt,getRouterByModulesKey } from '@/utils/router'
 
 export default {
   created() {
@@ -36,8 +35,7 @@ export default {
   },
   data() {
     return {
-      levelList: null,
-      permissionsList: this.$store.state.permission.permissionsList
+      levelList: null
     }
   },
   watch: {
@@ -48,13 +46,26 @@ export default {
   methods: {
     generateTitle,
     getBreadcrumb() {
-      const router = this.$route.path.split('/');
-      const path = getRouterByModulesKey(router[0], this.permissionsList);
       const levelList = [];
+      if( this.$route.meta.authority.modules == 'home' ) {
+        levelList.push({
+          title: this.$t('modules.home'),
+          path: '/'
+        });
+        this.levelList = levelList;
+        return ;
+      }
       levelList.push({
-        modules: 'log',
-        path: '/log/index',
-        title: '日志'
+        title: this.$t('modules.home'),
+        path: '/'
+      });
+      levelList.push({
+        title: this.$t('modules.' + this.$route.meta.authority.modules),
+        path: '/' + this.$route.meta.authority.modules
+      });
+      levelList.push({
+        title: this.$t('opt.' + this.$route.meta.authority.opt),
+        path: '/' + this.$route.meta.authority.modules + '/' + this.$route.meta.authority.opt
       });
       this.levelList = levelList;
     }

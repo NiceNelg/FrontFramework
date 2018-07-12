@@ -45,14 +45,7 @@
           </el-input>
           <span class="word-counter" v-show="contentShortLength">{{contentShortLength}}字</span>
         </el-form-item>
-
-        <div class="editor-container">
-          <Tinymce :height=400 ref="editor" v-model="postForm.content" />
-        </div>
-
-        <div style="margin-bottom: 20px;">
-          <Upload v-model="postForm.image_uri" />
-        </div>
+        
       </div>
     </el-form>
 
@@ -123,7 +116,6 @@ export default {
       loading: false,
       userListOptions: [],
       rules: {
-        image_uri: [{ validator: validateRequire }],
         title: [{ validator: validateRequire }],
         content: [{ validator: validateRequire }],
         source_uri: [{ validator: validateSourceUri, trigger: 'blur' }]
@@ -165,8 +157,7 @@ export default {
             message: '发布文章成功',
             type: 'success',
             duration: 2000
-          })
-          this.postForm.status = 'published'
+          });
           this.loading = false
         } else {
           console.log('error submit!!')

@@ -158,6 +158,7 @@ export default {
     key: 'Key'
   },
   modules: {
+    home: 'Home',
     top_system: 'System Management',
     module: 'Module Management',
     operate: 'Operation Management',

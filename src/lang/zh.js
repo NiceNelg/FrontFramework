@@ -158,6 +158,7 @@ export default {
     key: '标识'
   },
   modules: {
+    home: '主页',
     top_system: '系统管理',
     module: '模块管理',
     operate: '操作管理',
